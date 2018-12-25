@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+	<package name="token-test" namespace="/employee" extends="struts-default">
+		<action name="save" method="save" class="com.rmpk.prj.token.action.EmployeeMgmtAction">
+			<interceptor-ref name="token" />
+			<interceptor-ref name="defaultStack"/>
+			<result name="success">/success.jsp</result>
+			<result name="invalid.token">/invalid_token.jsp</result>
+		</action>
+	</package>
+</struts>
