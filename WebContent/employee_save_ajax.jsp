@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
-
+<s:set var="namespace" scope="request">/employee</s:set>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,30 +29,54 @@ $(function(){
 </script>
 
 <script>
-	function reLogin(){
-		var f = document.forms["registerForm"];
-	  	f.action='<s:url action="saveAjax" namespace="%{#request.namespace}" />';
-	  	f.submit();
+	function saveAjax(){
+	  	var firstName = $("#firstName").val();
+	  	var lastName = $("#lastName").val();
+	  	var email =	$("#email").val();
+	  	//var strutstokenname = $("input[name=struts.token.name]").val();
+	  	var token = $("input[name=token]").val();	  	
+	  	//alert(firstName+lastName+email +token);
+	  	$.ajax({
+            type: "POST",
+            url: '<s:url action="saveAjax" namespace="/employee" />',
+            data: { "firstName": firstName, "lastName": lastName, "email":email, "struts.token.name" :"token","token":token },
+            dataType : "json",
+			async: true,
+            cache: true,
+            success: function(data){
+            	console.log("success" + JSON.stringify(data));
+            	if(data){
+            		userExist = true;		                		
+            	}
+            },
+            error : function(data) {
+				console.log(JSON.stringify(data.responseText));
+				$("html").html(data.responseText);
+			}
+            
+        });
+	  	
 	}
 </script>
 
-<s:set var="namespace" scope="request"><%=request.getContextPath()%>/employee</s:set>
+
 </head>
 <body>
-	<s:form action="save" id="registerForm"	namespace="%{#request.namespace}" method="post">
+	<s:form action="saveAjax" id="registerForm"	namespace="%{#request.namespace}" method="post">
 		<h3>Employee Registration Form</h3>
 		<s:token />
 		<div>
-			<s:textfield name="firstName" id="firstName" placeholder="First name" label="First name"></s:textfield>
+			<s:textfield name="firstName" id="firstName" placeholder="First name" label="First name" value="sdf"></s:textfield>
 		</div>
 		<div>
-			<s:textfield name="lastName" id="lastName" placeholder="Last name" label="Last name"></s:textfield>
+			<s:textfield name="lastName" id="lastName" placeholder="Last name" label="Last name" value="sdf"></s:textfield>
 		</div>
 		<div>
-			<s:textfield name="email" id="email" placeholder="Email Address" label="Email :"></s:textfield>
+			<s:textfield name="email" id="email" placeholder="Email Address" label="Email :" value="asd@gmail.com"></s:textfield>
 		</div>
 		<div>
-			<s:submit name="submit" value="Save"></s:submit>
+			<%-- <s:submit onclick="javascript:saveAjax();"  name="submit" value="Save">Submit</s:submit> --%>
+			<input type="button" value="Submit" onclick="javascript:saveAjax();" />
 		</div>
 
 	</s:form>

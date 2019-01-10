@@ -5,13 +5,19 @@
 <html>
 <head>
 <title>Employee Management System</title>
-<script src="<s:url value="/js/jquery-3.3.1.min.js" />"
-					type="text/javascript"></script>
-<script src="<s:url value="/js/jquery.validate.min.js" />"
-					type="text/javascript"></script>
+<script src="<s:url value="/js/jquery-3.3.1.min.js" />"	type="text/javascript"></script>
+<script src="<s:url value="/js/jquery.validate.min.js" />" type="text/javascript"></script>
+	<style type="text/css">
+		label.error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  padding:1px 20px 1px 20px;
+}
+	</style>
 <script type="text/javascript">
 	$(function() {
-		$("#registerForm").validate({
+		$("#registerForm").validate({			
 			rules : {
 				email : {
 					required : true,
@@ -23,7 +29,13 @@
 				lastName : {
 					required : true
 				}
-			}
+			},
+			highlight: function (element) {
+                $(element).parent().addClass('error')
+            },
+            unhighlight: function (element) {
+                $(element).parent().removeClass('error')
+            }
 		});
 	});
 </script>
