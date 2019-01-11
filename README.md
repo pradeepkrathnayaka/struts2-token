@@ -1,1 +1,1 @@
-# struts2-token
+# Struts2 Token Interceptor
